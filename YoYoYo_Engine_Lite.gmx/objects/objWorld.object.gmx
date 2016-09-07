@@ -8,35 +8,6 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
-    <event eventtype="2" enumb="1">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///return to previous window position/size (after using display_reset)
-
-if (!window_get_fullscreen())
-{
-    window_set_position(global.windowXPrev,global.windowYPrev);
-    window_set_size(global.windowWidthPrev,global.windowHeightPrev);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
@@ -81,58 +52,12 @@ audio_pause_sound(global.currentMusic);
             <kind>1</kind>
             <string>///game checks
 
-
-//set linear interpolation depending on what the current smoothing setting is
-texture_set_interpolation(global.smoothingMode);
-
-//controller checks
-if (global.controllerEnabled &amp;&amp; global.controllerIndex != -1)
-{
-    if (!global.controllerMode)  //check if we should to controller mode
-    {
-        if (keyboard_check_pressed(vk_anykey))
-        {
-            global.controllerDelay = -1;
-        }
-        else if (scrAnyControllerButton() != -1)
-        {
-            if (global.controllerDelay == -1)
-                global.controllerDelay = global.controllerDelayLength;
-        }
-    }
-    else    //check if we should switch to keyboard mode
-    {
-        if (keyboard_check_pressed(vk_anykey))
-        {
-            if (global.controllerDelay == -1)
-                global.controllerDelay = global.controllerDelayLength;
-        }
-        else if (scrAnyControllerButton() != -1)
-        {
-            global.controllerDelay = -1;
-        }
-    }
-    
-    if (global.controllerDelay != -1)   //check delay for switching between keyboard/controller
-    {
-        if (global.controllerDelay == 0)    //delay over, toggle controller mode
-        {
-            global.controllerMode = !global.controllerMode;
-            global.controllerDelay = -1;
-        }
-        else
-        {
-            global.controllerDelay -= 1;
-        }
-    }
-}
-
 if (global.gameStarted)
 {
     //handle pausing
     if (global.pauseDelay &lt;= 0) //check if pause delay is active
     {
-        if (scrButtonCheckPressed(global.pauseButton))
+        if (keyboard_check_pressed(global.pauseButton))
         {
             if (!global.gamePaused)  //game currently not paused, pause the game
             {
@@ -170,7 +95,7 @@ if (global.gameStarted)
     
     if (!global.gamePaused) //check if the game is currently paused
     {
-        if (scrButtonCheckPressed(global.restartButton))
+        if (keyboard_check_pressed(global.restartButton))
         {
             //stop death sound/music
             audio_stop_sound(global.deathSound);
@@ -191,21 +116,18 @@ if (global.gameStarted)
             scrLoadGame(false); //load the game
         }
         
-        if (global.timeWhenDead || instance_exists(objPlayer))  //increment timer
-        {
-            global.timeMicro += delta_time;
-            global.time += global.timeMicro div 1000000;
-            global.timeMicro = global.timeMicro mod 1000000;
-        }
+        global.timeMicro += delta_time;
+        global.time += global.timeMicro div 1000000;
+        global.timeMicro = global.timeMicro mod 1000000;
     }
     else    //game is paused, check for volume controls
     {
-        if (scrButtonCheck(global.upButton))
+        if (keyboard_check(global.upButton))
         {
             if (global.volumeLevel &lt; 100)
                 global.volumeLevel += 1;
         }
-        else if (scrButtonCheck(global.downButton))
+        else if (keyboard_check(global.downButton))
         {
             if (global.volumeLevel &gt; 0)
                 global.volumeLevel -= 1;
@@ -215,93 +137,6 @@ if (global.gameStarted)
     }
     
     scrSetRoomCaption();    //keep caption updated
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///debug keys
-
-if (global.debugMode &amp;&amp; global.gameStarted &amp;&amp; !global.gamePaused)
-{
-    if (keyboard_check(vk_tab))             //drags player with mouse
-    {
-        with (objPlayer)
-        {
-            x = mouse_x;
-            y = mouse_y;
-        }
-    }
-    if (keyboard_check_pressed(vk_backspace))   //toggles debug overlay
-    {
-        global.debugOverlay = !global.debugOverlay;
-    }
-    if (keyboard_check_pressed(vk_insert))  //saves game
-    {
-        with (objPlayer)
-        {
-            scrSaveGame(true);
-            audio_play_sound(sndItem,0,false);
-        }
-    }
-    if (keyboard_check_pressed(vk_delete))  //toggles showing the hitbox
-    {
-        global.showHitbox = !global.showHitbox;
-    }
-    if (keyboard_check_pressed(vk_home))    //toggles god mode
-    {
-        global.noDeath = !global.noDeath;
-    }
-    if (keyboard_check_pressed(vk_end))     //toggles infinite jump
-    {
-        global.infJump = !global.infJump;
-    }
-    if (keyboard_check_pressed(vk_pageup) &amp;&amp; room != room_last)  //goes to next room
-    {        
-        with (objPlayer)
-            instance_destroy();
-    
-        room_goto_next();
-    }
-    if (keyboard_check_pressed(vk_pagedown) &amp;&amp; room != room_first)    //goes to previous room
-    {        
-        with (objPlayer)
-            instance_destroy();
-    
-        room_goto_previous();
-    }
-}
-
-if (global.debugVisuals)
-{
-    with (objPlayer)    //sets appearance of the player to show god mode/infinite jump
-    {
-        if (global.noDeath)     //makes player slightly transparent when god mode is on
-            image_alpha = 0.7;
-        else
-            image_alpha = 1;
-        
-        if (global.infJump)     //makes player turn blue when infinite jump is on
-            image_blend = c_blue;
-        else
-            image_blend = c_white;
-    }
 }
 </string>
           </argument>
@@ -343,11 +178,6 @@ if (keyboard_check_pressed(vk_f4) &amp;&amp; !global.gamePaused)    //toggle ful
     window_set_fullscreen(global.fullscreenMode);
     
     scrSaveConfig();    //save fullscreen setting
-}
-
-if (keyboard_check_pressed(vk_f5) &amp;&amp; !global.gamePaused)    //reset window size
-{
-    scrResetWindowSize();
 }
 
 if (keyboard_check(vk_control) &amp;&amp; keyboard_check_pressed(ord("M")) &amp;&amp; !global.gamePaused)
@@ -409,8 +239,7 @@ alarm[0] = 50;  //pause music when it's done fading
             <kind>1</kind>
             <string>///room checks
 
-if (!instance_exists(objPlayMusic))  //make sure the play music object isn't in the current room
-    scrGetMusic();  //find and play the proper music for the current room
+scrGetMusic();  //find and play the proper music for the current room
 
 room_speed = 50;    //make sure game is running at the correct frame rate
 scrSetRoomCaption();    //make sure window caption stays updated
@@ -451,52 +280,6 @@ room_goto_next();
       </action>
     </event>
     <event eventtype="8" enumb="64">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>///draw debug overlay
-
-if (global.debugOverlay)
-{
-    draw_set_color(c_black);
-    draw_set_halign(fa_left);
-    draw_set_font(fDefault12);
-    
-    var drawX = 0, drawY = 0, drawAlign = 0;
-    if (instance_exists(objPlayer))
-    {
-        drawX = objPlayer.x;
-        drawY = objPlayer.y;
-        drawAlign = objPlayer.x mod 3;
-    }
-    
-    scrDrawTextOutline(20,20,"X: "+string(drawX),c_black,c_white);
-    scrDrawTextOutline(20,40,"Y: "+string(drawY),c_black,c_white);
-    scrDrawTextOutline(20,60,"Align: "+string(drawAlign),c_black,c_white);
-    scrDrawTextOutline(20,80,"Room name: "+room_get_name(room),c_black,c_white);
-    scrDrawTextOutline(20,100,"Room number: "+string(room),c_black,c_white);
-    scrDrawTextOutline(20,120,"God mode: "+string(global.noDeath),c_black,c_white);
-    scrDrawTextOutline(20,140,"Infinite jump: "+string(global.infJump),c_black,c_white);
-    scrDrawTextOutline(20,160,"FPS: "+string(fps),c_black,c_white);
-    //scrDrawTextOutline(20,180,"Real FPS: "+string(fps_real),c_black,c_white);
-}
-</string>
-          </argument>
-        </arguments>
-      </action>
       <action>
         <libid>1</libid>
         <id>603</id>

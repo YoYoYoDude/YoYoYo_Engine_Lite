@@ -51,19 +51,12 @@ for (var i = 1; i &lt;= 3; i++)
         //load the save map
         var saveMap;
         
-        if (global.extraSaveProtection) //use ds_map_secure function
-        {
-            saveMap = ds_map_secure_load("Data\save"+string(i));
-        }
-        else    //use text file
-        {
-            var f = file_text_open_read("Data\save"+string(i));
-            
-            saveMap = ds_map_create();
-            ds_map_read(saveMap,base64_decode(file_text_read_string(f)));
-            
-            file_text_close(f);
-        }
+        var f = file_text_open_read("Data\save"+string(i));
+        
+        saveMap = ds_map_create();
+        ds_map_read(saveMap,base64_decode(file_text_read_string(f)));
+        
+        file_text_close(f);
         
         if (saveMap != -1)  //check if the save map loaded correctly
         {
@@ -150,7 +143,7 @@ for (var i = 1; i &lt;= 3; i++)
 appleIndex = (appleIndex + 1/15) mod 2;
 playerIndex = (playerIndex + 1/5) mod 4;
 
-if (scrButtonCheckPressed(global.menuOptionsButton))
+if (keyboard_check_pressed(global.menuOptionsButton))
 {
     room_goto(rOptions);
 }
@@ -158,53 +151,45 @@ else
 {
     if (!difSelect)
     {
-        if (scrButtonCheckPressed(global.menuLeftButton))
+        if (keyboard_check_pressed(global.menuLeftButton))
         {
             audio_play_sound(global.menuSound,0,false);
             select -= 1;
             if(select &lt; 1)
                 select = 3;
         }
-        else if (scrButtonCheckPressed(global.menuRightButton))
+        else if (keyboard_check_pressed(global.menuRightButton))
         {
             audio_play_sound(global.menuSound,0,false);
             select += 1;
             if(select &gt; 3)
                 select = 1;
         }
-        else if (scrButtonCheckPressed(global.menuBackButton))
+        else if (keyboard_check_pressed(global.menuBackButton))
         {
             room_goto(rTitle);  //go back
         }
-        else if (scrButtonCheckPressed(global.menuAcceptButton))
+        else if (keyboard_check_pressed(global.menuAcceptButton))
         {
-            if (global.menuMode == 0)   //use the difficulty select room to select difficulty
-            {
-                global.savenum = select;
-                room_goto(rDifficultySelect);
-            }
-            else    //use the menu to select difficulty
-            {
-                difSelect = true;
-                if (exists[select]) //check if there is a save in the current slot
-                    select2 = -1;   //default to load game
-                else
-                    select2 = 0;    //default to medium
-            }
+            difSelect = true;
+            if (exists[select]) //check if there is a save in the current slot
+                select2 = -1;   //default to load game
+            else
+                select2 = 0;    //default to medium
         }
     }
     else
     {
         if (!warnText)
         {
-            if (scrButtonCheckPressed(global.menuLeftButton))
+            if (keyboard_check_pressed(global.menuLeftButton))
             {
                 audio_play_sound(global.menuSound,0,false);
                 select2 -= 1;
                 if ((select2 == -1 &amp;&amp; !exists[select]) || (select2 &lt; -1))
                     select2 = 3;
             }
-            else if (scrButtonCheckPressed(global.menuRightButton))
+            else if (keyboard_check_pressed(global.menuRightButton))
             {
                 audio_play_sound(global.menuSound,0,false);
                 select2 += 1;
@@ -216,11 +201,11 @@ else
                         select2 = 0;
                 }
             }
-            else if (scrButtonCheckPressed(global.menuBackButton))
+            else if (keyboard_check_pressed(global.menuBackButton))
             {
                 difSelect = false;
             }
-            else if (scrButtonCheckPressed(global.menuAcceptButton))
+            else if (keyboard_check_pressed(global.menuAcceptButton))
             {
                 global.savenum = select;
                 
@@ -250,21 +235,21 @@ else
         }
         else
         {
-            if (scrButtonCheckPressed(global.menuLeftButton))
+            if (keyboard_check_pressed(global.menuLeftButton))
             {
                 audio_play_sound(global.menuSound,0,false);
                 warnSelect = !warnSelect;
             }
-            else if (scrButtonCheckPressed(global.menuRightButton))
+            else if (keyboard_check_pressed(global.menuRightButton))
             {
                 audio_play_sound(global.menuSound,0,false);
                 warnSelect = !warnSelect;
             }
-            else if (scrButtonCheckPressed(global.menuBackButton))
+            else if (keyboard_check_pressed(global.menuBackButton))
             {
                 warnText = false;
             }
-            else if (scrButtonCheckPressed(global.menuAcceptButton))
+            else if (keyboard_check_pressed(global.menuAcceptButton))
             {
                 if (warnSelect)
                 {
@@ -356,6 +341,7 @@ else
         
         if(clear[i]){draw_text(x+(i-1)*239+63,y+215,"Clear!!")}
         
+        /*
         if(boss[0,i]){draw_sprite(sprBossItem,-1,x+(i-1)*239+0,y+128)}
         if(boss[1,i]){draw_sprite(sprBossItem,-1,x+(i-1)*239+32,y+128)}
         if(boss[2,i]){draw_sprite(sprBossItem,-1,x+(i-1)*239+64,y+128)}
@@ -364,6 +350,7 @@ else
         if(boss[5,i]){draw_sprite(sprBossItem,-1,x+(i-1)*239+32,y+160)}
         if(boss[6,i]){draw_sprite(sprBossItem,-1,x+(i-1)*239+64,y+160)}
         if(boss[7,i]){draw_sprite(sprBossItem,-1,x+(i-1)*239+96,y+160)}
+        */
     }
     else
     {
