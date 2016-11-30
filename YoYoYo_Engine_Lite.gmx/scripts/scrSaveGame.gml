@@ -7,7 +7,7 @@ var savePosition = argument0;
 //save the player's current location variables if the script is currently set to (we don't want to save the player's location if we're just updating death/time)
 if (savePosition)
 {    
-    global.saveRoom = room;
+    global.saveRoom = room_get_name(room);
     global.savePlayerX = objPlayer.x;    
     global.savePlayerY = objPlayer.y;
     global.saveGrav = global.grav;
@@ -75,13 +75,13 @@ for (var i = 0; i < global.bossItemTotal; i++)
 ds_map_add(saveMap,"saveGameClear",global.saveGameClear);
 
 //add md5 hash to verify saves and make them harder to hack
-ds_map_add(saveMap,"mapMd5",md5_string_unicode(json_encode(saveMap)+global.md5StrAdd));
+ds_map_add(saveMap,"mapMd5",md5_string_unicode(ds_map_write(saveMap)+global.md5StrAdd));
 
 //open the save file
 var f = file_text_open_write("Data\save"+string(global.savenum));
 
 //write map to the save file with base64 encoding
-file_text_write_string(f,base64_encode(json_encode(saveMap)));
+file_text_write_string(f,base64_encode(ds_map_write(saveMap)));
 
 file_text_close(f);
 

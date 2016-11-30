@@ -291,7 +291,7 @@ scrSetRoomCaption();    //make sure window caption stays updated
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///initialize everything (this build of YoYoYo Engine Lite is included in v1.41)
+            <string>///initialize everything (this build of YoYoYo Engine Lite is included in v1.42)
 
 //initialize all variables
 scrInitializeGlobals();

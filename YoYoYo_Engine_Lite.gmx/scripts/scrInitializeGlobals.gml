@@ -30,7 +30,7 @@ global.difficulty = 0;  //0 = medium, 1 = hard, 2 = very hard, 3 = impossible
 global.death = 0;
 global.time = 0;
 global.timeMicro = 0;
-global.saveRoom = 0;
+global.saveRoom = "";
 global.savePlayerX = 0;
 global.savePlayerY = 0;
 global.grav = 1;
