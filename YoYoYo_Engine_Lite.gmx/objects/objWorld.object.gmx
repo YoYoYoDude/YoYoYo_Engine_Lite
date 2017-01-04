@@ -94,7 +94,7 @@ if (global.gameStarted)
                     
                     instance_deactivate_all(true);  //deactivate everything
                     
-                    global.pauseSurf = surface_create(view_wport[0], view_hport[0]);    //create new surface
+                    global.pauseSurf = surface_create(surface_get_width(application_surface),surface_get_height(application_surface));    //create new surface
                     surface_copy(global.pauseSurf,0,0,application_surface);             //copy current screen to it
                 }
             }
@@ -291,7 +291,7 @@ scrSetRoomCaption();    //make sure window caption stays updated
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///initialize everything (this build of YoYoYo Engine Lite is included in v1.42)
+            <string>///initialize everything
 
 //initialize all variables
 scrInitializeGlobals();
@@ -334,7 +334,7 @@ if (global.gamePaused)  //check if game is paused to draw the pause screen
     draw_set_color(c_black);
     draw_set_alpha(0.4);
     
-    draw_rectangle(-1,-1,view_wport[0],view_hport[0],0);    //darken the paused screen
+    draw_rectangle(-1,-1,display_get_gui_width(),display_get_gui_height(),0);    //darken the paused screen
     
     draw_set_alpha(1);
     
@@ -343,7 +343,7 @@ if (global.gamePaused)  //check if game is paused to draw the pause screen
     draw_set_halign(fa_center);
     draw_set_font(fDefault30);
     
-    draw_text(view_wport[0]/2,view_hport[0]/2 - 24,"PAUSE");
+    draw_text(display_get_gui_width()/2,display_get_gui_height()/2 - 24,"PAUSE");
     
     draw_set_halign(fa_left);
     draw_set_font(fDefault18);

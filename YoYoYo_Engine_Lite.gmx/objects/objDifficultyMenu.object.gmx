@@ -28,7 +28,7 @@
             <string>//initiailze menu variables
 
 difSelect = false;
-select = 0;
+select = global.menuSelectPrev[0];
 select2 = 0;
 xSeperation = 239;
 str[0] = "Save 1";
@@ -146,6 +146,7 @@ playerIndex = (playerIndex + 1/5) mod 4;
 
 if (keyboard_check_pressed(global.menuOptionsButton))
 {
+    global.menuSelectPrev[0] = select;
     room_goto(rOptions);
 }
 else
@@ -168,6 +169,7 @@ else
         }
         else if (keyboard_check_pressed(global.menuBackButton))
         {
+            global.menuSelectPrev[0] = 0;
             room_goto(rTitle);  //go back
         }
         else if (keyboard_check_pressed(global.menuAcceptButton))

@@ -134,7 +134,7 @@ if (!frozen)    //don't move if frozen
         h = -1;
 }
 
-var slipBlockTouching = instance_place(x,y+(4*global.grav),objSlipBlock);   //check if near a slip block
+var slipBlockTouching = instance_place(x,y+(1*global.grav),objSlipBlock);   //check if near a slip block
 
 //vine checks
 var notOnBlock = (place_free(x,y+(global.grav)));
@@ -153,8 +153,10 @@ if (h != 0)  //player is moving
             hspeed = maxSpeed * h;
         else    //touching a slip block, use acceleration
         {
-            if ((h == 1 &amp;&amp; hspeed &lt; maxSpeed) || (h == -1 &amp;&amp; hspeed &gt; -maxSpeed))
-                hspeed += (slipBlockTouching.slip) * h;
+            hspeed += (slipBlockTouching.slip) * h;
+            
+            if (abs(hspeed) &gt; maxSpeed)
+                hspeed = maxSpeed * h;
         }
         
         sprite_index = sprPlayerRunning;

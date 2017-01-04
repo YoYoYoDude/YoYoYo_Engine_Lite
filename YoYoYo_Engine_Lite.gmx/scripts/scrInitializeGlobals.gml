@@ -6,16 +6,16 @@
 global.noDeath = false;         //enables god mode
 global.infJump = false;         //enables infinite jump
 
-global.roomCaptionDef = "I Wanna Be The Studio Engine YoYoYo Edition Lite";  //sets default window caption (only works with the Professional version of Studio)
+global.roomCaptionDef = "I Wanna Be The Studio Engine YoYoYo Edition Lite v1.50";  //sets default window caption (only works with the Professional version of Studio)
 global.roomCaptionLast = global.roomCaptionDef;
 window_set_caption(global.roomCaptionDef);
 
-global.md5StrAdd = "asjkdfhjoqwfhjko";  //sets what to add to the end of md5 input string to make the save harder to mess with, can be changed to anything, should be set to something unique and hard to predict (like setting a password)
+global.md5StrAdd = "qweiuyrhzxcbnvzghd";  //sets what to add to the end of md5 input string to make the save harder to mess with, can be changed to anything, should be set to something unique and hard to predict (like setting a password)
 
 global.startRoom = rSampleRoom;    //sets which room to begin with
 
 global.menuSound = sndJump;     //sets what sound to use for navigating the main menu
-global.deathMusicMode = 2;      //sets whether or not to play death music when the player dies (0 = no death music, 1 = instantly pause current music, 2 = fade out current music)
+global.deathMusicMode = 0;      //sets whether or not to play death music when the player dies (0 = no death music, 1 = instantly pause current music, 2 = fade out current music)
 global.edgeDeath = true;           //sets whether to kill the player when he leaves the boundaries of the room
 global.pauseDelayLength = 40;   //sets the delay in frames in which the player can pause/unpause the game (can be set to 0 to disable pause delay)
 
@@ -65,6 +65,9 @@ global.gameOverMusic = -1;   //keeps track of game over music instance
 global.musicFading = false;     //keeps track of whether the music is being currently faded out
 global.currentGain = 0;     //keeps track of current track gain when a song is being faded out
 
-display_set_gui_size(view_wport[0],view_hport[0]);  //set the correct gui size for the Draw GUI event
+global.menuSelectPrev[0] = 0;     //keeps track of the previously selected option when navigating away from the difficulty menu
+global.menuSelectPrev[1] = 0;     //keeps track of the previously selected option when navigating away from the options menu
+
+display_set_gui_size(surface_get_width(application_surface),surface_get_height(application_surface));  //set the correct gui size for the Draw GUI event
 
 randomize();    //make sure the game starts with a random seed for RNG
