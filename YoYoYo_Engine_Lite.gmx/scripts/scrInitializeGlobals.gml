@@ -6,7 +6,7 @@
 global.noDeath = false;         //enables god mode
 global.infJump = false;         //enables infinite jump
 
-global.roomCaptionDef = "I Wanna Be The Studio Engine YoYoYo Edition Lite v1.50";  //sets default window caption (only works with the Professional version of Studio)
+global.roomCaptionDef = "I Wanna Be The Studio Engine YoYoYo Edition Lite v1.51";  //sets default window caption (only works with the Professional version of Studio)
 global.roomCaptionLast = global.roomCaptionDef;
 window_set_caption(global.roomCaptionDef);
 
