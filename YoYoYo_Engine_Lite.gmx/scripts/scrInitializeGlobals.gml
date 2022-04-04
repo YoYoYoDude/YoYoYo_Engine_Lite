@@ -6,7 +6,7 @@
 global.noDeath = false;         //enables god mode
 global.infJump = false;         //enables infinite jump
 
-global.roomCaptionDef = "I Wanna Be The Studio Engine YoYoYo Edition Lite v1.51";  //sets default window caption (only works with the Professional version of Studio)
+global.roomCaptionDef = "I Wanna Be The Studio Engine YoYoYo Edition Lite v1.52";  //sets default window caption (only works with the Professional version of Studio)
 global.roomCaptionLast = global.roomCaptionDef;
 window_set_caption(global.roomCaptionDef);
 
@@ -71,3 +71,5 @@ global.menuSelectPrev[1] = 0;     //keeps track of the previously selected optio
 display_set_gui_size(surface_get_width(application_surface),surface_get_height(application_surface));  //set the correct gui size for the Draw GUI event
 
 randomize();    //make sure the game starts with a random seed for RNG
+
+scheduler_resolution_set(1);    //make sure 1 ms timing is used from game start
